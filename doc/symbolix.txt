@@ -1,0 +1,135 @@
+DOCUMENTATION for CALCULUS DEMON (aka SYMBOLIX)
+by Joseph K. Horn, 1042 Star Rt., Orange CA 92667, (714) 858-0222
+
+"CALCULUS DEMON" is a BASIC program written by The Soft Warehouse (Honolulu HI)
+for the Atari home computer.  The version presented here is called SYMBOLIX,
+and was rewritten for the HP-71 by Joseph K. Horn from the Atari original.  It
+is copyrighted by The Soft Warehouse.  It is to be used as is, and not modified
+for use for other applications.  To insure this, SYMBOLIX is distributed only on
+magnetic media in PRIVATE form.  Even if a clever user manages to remove the
+PRIVATE status, the program still cannot be listed, because its line numbers
+have been removed.  Any attempt to modify the program will result in immediate
+decompiling of the GOTO's and GOSUB's, rendering the program inoperative. ***
+
+SYMBOLIX is 20K long, so it requires at least one 32K RAM module.  It will not
+run on a bare 16K HP-71.  The program also uses up to 8K of RAM for scratch.
+It does not require any other files to run, but is ideally suited for use with
+the HPIL ROM and a video interface (or printer, in DISPLAY IS PRINTER mode).
+
+INSTRUCTIONS:
+
+(1)  Copy SYMBOLIX into memory.  RUN SYMBOLIX.  It takes a moment to warm up.
+
+(2)  The ":" prompt appears.  This is where you type in a line of symbolic math,
+     and press ENDLINE.  After some time (up to a few minutes), the result will
+     be displayed, followed by a new ":" prompt.  (If no printer or video is
+     available, you can prevent the result from vanishing by setting DELAY 9).
+
+(3)  To exit, press ENDLINE without any input.
+
+(4)  After the ":" prompt, enter an expression using digits, decimal points,
+     parentheses, and 1-letter variables together with operators +, -, /, *, and
+     ^.  Since implied multiplication is allowed, you may omit all *'s.  Follow-
+     ing each such input, an equivalent expression is displayed, derived by
+     reordering, collecting like terms, and other mild transformations.  Note:
+     X^2Y^2 means (X^2)(Y^2); X^YZ means (X^Y)*Z.  Spaces are ignored.  As
+     examples, try these:
+
+     3x^2y+5(xyx-7)     (note: y=Y; you may use lowercase if you wish)
+     (a^2*b)^.5/a
+
+(5)  Type < to turn on expansion of positive integer powers of sums and full
+     distribution of numerator or denominator factors over numerator sums.  Type
+     > to turn off these transformations.  For example, try these:
+
+     < (x+y)(x-y)    note: "<" mode remains on until you turn it off with a ">".
+     (x+y)/(x-y)+5
+     >
+     (x+y)/(x-y)+5     (just press up-arrow once; it's in the stack)
+
+(6)  Expressions can include the six trig functions SIN, COS, TAN, COT, SEC, and
+     CSC, and the inverses of the first three, ASN, ACS, and ATN.  Expressions
+     can also contain the natural log and exponential functions, spelled LOG and
+     EXP.  Parentheses can be omitted from around arguments that are constants,
+     variables, functional forms, or the negatives of these.  Automatic trans-
+     formations exploit symmetry, inversion, logs of powers, and numeric
+     arguments.  As examples, try:
+
+     > COS -x
+     EXP LOG x     (same as EXPLOGx)
+     LOG(x^2)
+     4ATN1
+
+(7)  When ALGEBRAIC expansion is turned on via <, logs of products or quotients
+     are rephrased as sums or differences of logs, and other trig functions are
+     replaced by sines and cosines.  Typing [ turns on HARMONIC expansion, which
+     transforms positive integer powers and products of sines and cosines into
+     'linear combinations' of sines and cosines of multiple angles and angle
+     sums or differences.  Typing ] turns off harmonic expansion.  Try these:
+
+     < LOG(xy/z)
+     TANxCSCx
+     [ SINxCOSy
+     SINx^2+COSx^2 ]>
+
+(8)  An entry of the form "variable = expression" causes the resulting value of
+     the expression to be ASSIGNED to the variable for use in subsequent
+     expressions.  For example, try:
+
+     p=5(x+y+z)
+     p+1/p+xLOGp
+
+(9)  Follow an assignment with a ";" to suppress display of an assigned value.
+     Try this:
+
+     p=s+1;
+     p^3
+
+(10) Several assignments can precede an expression in a single entry, as long as
+     they are separated by semicolons.  For example, try:
+
+     p=r+1; q=l+p; q^2
+
+(11) To prevent a variable from contributing its value to an expression, precede
+     it by an apostrophe.  This provides a way of clearing a variable.  Try:
+
+     p=L+5; p^2
+     p='p; p^2
+
+(12) If we enter the line "h='h; p=h+1; h=2; p^2" then H becomes 2 after P
+     becomes H+1, so the displayed result is (H+1)^2 rather than 9.  However, we
+     can follow the expression P^2 with the operator "@" to RE-EVALUATE it so
+     that the H in it is updated to its new value 2.  "@" has the same order-of-
+     operations precedence as addition.  Try it:
+
+     h='h; p=h+1; h=2; p^2 @
+
+(13) To determine the partial DERIVATIVE of an expression with respect to a
+     variable, enter an expression of the form "expression % variable".  "%" is
+     used to suggest a ratio of infinitesimals.  "%" has the same order-of-
+     operations precedence as addition.  As examples, try these:
+
+     x='x; a='a; ax^3+SINx % x
+     a^2x^3%x%a
+
+(14) To determine an antiderivative of an expression with respect to a variable,
+     enter an expression of the form "expression $ variable".  "$" is used to
+     suggest an INTEGRAL sign.  "$" has the same order-of-operations precedence
+     as addition.  Avoid expansion of integrands, which may mask a known
+     integrable pattern, because algebraic then harmonic expansion are tried
+     automatically if the given form can't be integrated directly.  Try these:
+
+     x='x; a='a; 3ax^2+COSx $ x
+     COSLOGx/x$x
+
+(15) If the expression contains a syntax error, an appropriate error message
+     will point it out.  The ^ that points to the error will only be useful when
+     a video or printer is in use via HP-IL.
+
+*** Note: Due to an HP-71 bug discovered while running the "unlistable" version
+of SYMBOLIX in RADIANS mode, the program is now available in totally unprotected
+form (with proper line numbers, lines no longer than 96 characters each, etc.).
+It is therefore easy to modify for custom input/output, or whatever.  Although
+SYMBOLIX is now listable, it is NOT "public domain."  Give copies to all your
+friends, but don't sell it, and be sure the first two lines (the copyright
+notices) remain intact.                                                   -jkh-

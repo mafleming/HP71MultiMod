@@ -1,0 +1,310 @@
+            Preliminary documentation for the ULIB52 LEX - J-F Garnier, Sept.2015
+
+--- Presentation:
+ULIB52 is a compilation of almost all the known keywords from the LEX ID#52 known as the User Library 1 LEX file ID. The only exception is the ROMAN keyword that I didn't include because it is quite large and has now little interest.
+The keywords come from different LEX files and have been merged in a single file by me (J-F Garnier) in 2007-2015.
+
+Source files are provided. Most are coming from a disassembly of the individual LEX files, done by me or by several other people in the past.
+The only exceptions are the SYSTEMFN, CMDLEX and LINKERLX, I originally disassembled them to build the source files for ULIB52, but I recently got the original and commented source files (thanks to Bob Prosperi !). I aligned my source files with these original sources.
+
+I used the sasm/sload HP utilities to build the ULIB52 LEX file and my aLIFhdr utility to add the LIF header for transfer to the HP-71 or to Emu71.
+The batch and the loader command files are provided.
+
+
+--- Original LEX files
+CUSTUTIL    HP
+DATALEX     HP (for STD$ keyword)
+STRINGLX    HP
+STRBOOL     ?
+BREAKPT     HP
+BASICLX2    C. Bunsen HP employee software - originally known as SPLEX (Spreadsheet Program)
+ONKEYLX     HP
+ROWCOL      ?
+BANNER      ?
+CLOCKDSP    HP employee software
+KEYSLEEP    HP
+PATTERN     HP
+SYSTEMFN    HP <850429> (1)
+FMTLEX      HP
+CMDLEX      John R Baker <850714> (1)
+LINKERLX    John R Baker <860406> (1)
+TCONV       HP
+
+(1) Original commented source files available.
+
+
+--- Keyword list:
+52/01 KEYWAIT$
+52/02 SCROLL
+52/03 MSG$(#)
+52/04 INLINE         
+52/05 KEYNAM$(#)
+52/06 KEYNUM($)
+52/07 STD$(#)
+52/08 LTRIM$($,?$)
+52/09 RTRIM$($,?$)
+52/0A TRIM$($,?$)
+52/0B RPT$($,#)
+52/0C REV$($)
+52/0D LWRC$($)
+52/0E LWC$($)
+52/0F ROT$($,#)
+52/10 SPAN($,$,?#)
+52/11 MEMBER($,$,?#)
+52/12 SBIT$($,#,?#,?#)
+52/13 SBIT($,#,#)
+52/18 AND$($,$)
+52/19 OR$($,$)
+52/1A EXOR$($,$)
+52/1B COMP$($)
+52/1C REVBIT$($)
+52/20 BREAK         
+52/21 UNBREAK       
+52/22 BLIST         
+52/23 MODIFY        
+52/24 LIST$(#,?$)   
+52/25 ON
+52/26 OFF     
+52/27 ROWCOL$($)    
+52/28 BANNER$($)    
+52/29 CLOCK         
+52/2A ROMAN8$  -> obsolete, not included
+52/2B KEYSLP$   (1)
+52/5E PATTERN$($)   
+52/5F SYSTEM$(#/$)
+52/60 SYSTEM($) 
+52/61 IMAGE$($)  (1)
+52/62 PRINT      (1)
+52/63 CMDSTK   
+52/64 LINKLEX
+52/65 TCNV($)    (1)
+52/66 TCNV$(#)   (1)
+52/67 DCNV($)    (1)
+52/68 DCNV$(#)   (1)
+
+(1) included in Data Acq ROM.
+
+--- Missing keywords/tokens:
+Note that there are several gaps with missing keywords (14-17, 1D-1F and 2C-5D) in the sequential token numbering.
+Some of these missing tokens are mentionned the HP71 System Assignment document (14:SAR$, 1D:RPTBIT$, 1E:EXTRBIT, 1F:STUFFBIT) but no LEX corresponding to these keywords is known. Any information is welcome!
+Tokens inside the 2C-5D range do exist in a few known LEX files (for instance SUPERLEX), but have not been officially allocated, they are not associated with defined keywords and the functions are depending on the particular LEX files.
+Token 69-6C (STKX/Y/Z/T) are associated with a RPN calculator application, they can't be used independently and are too specific to be included in ULIB52.
+
+
+--- Keyword description
+
+- Documentation sources:
+From Joe Horn site:
+ CUSTUTIL 
+ STRINGLX 
+ BREAKPT 
+ BASICLEX
+ ROWCOL
+ BANNER
+ CLOCKDSP 
+ PATTERN
+ LINKLEX 
+From DataAcq Pac manual:
+ TCONV
+ FMTLEX
+ KEYSLEEP
+Documented by myself (J-F Garnier):
+ STRBOOL  
+ ONKEYLX
+ SYSTEMFN
+ CMDLEX
+Other documentation sources:
+ The HP-71 SDH (Software Developer's Handbook) documents the STRINGLX, BREAKPT and PATTERN LEXs.
+ It also documents the KEYWAIT$, INLINE and MSG$ keywords from CUSTUTIL.
+ The SystemFN source file from HP provides a detailled description of the SYSTEM/SYSTEM$ keywords.
+
+
+CUSTUTIL "Customization Utilities lexfile". 
+This lexfile is a must for those who plan to market their programs to the "real world". SIZE: 1007 bytes.
+- INLINE is an improved INPUT, with controls such as cursor position and type, and termination key
+specification. It allows amazingly "friendly" programming.
+- KEYNAM$ returns the name of the numbered key, and
+- KEYNUM returns the number of the specified key name. These allow full use of functions and
+statements that use either key name or number.
+- KEYWAIT$ is the most useful lex function of all; it is the same as KEY$ but it waits in low-power
+"idle" mode until a key is pressed.
+- MSG$ returns the specified message or error string, automatically translating if a translator lexfile that
+handles pTRANS is in memory.
+- SCROLL scrolls the display so that the specified character is the first one displayed, the rest being off
+the left edge, available with the arrow keys.
+
+STD$: as STR$, but always in standard format (STD).
+
+STRINGLX "String Utilities lexfile". This package of string functions was originally intended to be part
+of the built-in BASIC, but was left out due to memory constraints. SIZE: 837 bytes.
+- TRIM$ trims spaces (or any other specified character) off the ends of a string, whereas
+- LTRIM$ trims only the left end, and
+- RTRIM$ trims only the right end.
+- LWC$ and its alias
+- LWRC$ both convert a string to lowercase.
+- MEMBER searches a string for any one of a given set of characters.
+- SPAN searches a string for the first character which is not a member of a given set of characters.
+- REV$ reverses the byte order of a string (see REVLEX above).
+- ROT$ rotates the bytes in a string any number of times in either direction.
+- RPT$ repeats a string.
+- SBIT and
+- SBIT$ let you test, toggle, set or clear any bit or byte in a string.
+
+STRBOOL  
+- AND$(A$,B$)
+- OR$(A$,B$)
+- EXOR$(A$,B$)
+    Applies the bitwise boolean operation (and, inclusive or, exclusive or) on each byte of A$ and B$.
+    The resulting string has the same length than A$
+    If B$ shorter than A$, the end of resulting string (after the length of B$) is A$ unchanged.
+    Examples:
+    AND$("ABCD",RPT$(CHR$(254),16)) --> "@BBD"
+    OR$("ABCD",RPT$(CHR$(1),16)) --> "ACCE"
+    EXOR$("ABCD",CHR$(1)) --> @BCD
+- COMP$(A$)
+    Complements (bitwise boolean not operation) all the bytes of A$ (complement to 255)
+    COMP$(OR$("LMNO",RPT$(CHR$(128),4))) --> "3210"
+- REVBIT$(A$)
+    Flips the bit order of each byte of A$: bit 0 <-> bit 7, bit 1 <-> bit 6, etc.
+    REVBIT$("bdfj") -> "F&fV"
+
+BREAKPT "Break Point lexfile":
+Adds breakpoint ability, usually only found in low-level languages like Assembly language debuggers.
+- BREAK lets you specify any line number or numbers where the HP-71 should automatically PAUSE
+(same as inserting a PAUSE at that line of code). Even works on ROM programs. Primarily used for
+debugging, but also good for simple program control.
+- UNBREAK clears all breakpoints set by BREAK.
+- BLIST lists all the current breakpoint line numbers.
+
+BASICLX2 "BASIC file utilities":
+- LIST$ returns any program line of any BASIC program in memory, in the form of a string that is
+identical to the way the program line would be LISTed. This allows a program to examine the
+contents of another BASIC program, or even itself, without needing to TRANSFORM it into text.
+- MODIFY takes a string (a valid line of program BASIC) and merges it into the specified program.
+This allows a BASIC program to modify any other BASIC program, or even itself, without POKE.
+- Together, LIST$ and MODIFY allow such things as a telephone directory program with all its data in
+DATA statements that are updated by the program itself.
+
+ONKEY
+  Define end-of-line branch when a key is pressed, in a similar way than ON TIMER.
+    10 ON KEY GOTO 'K1'
+    10 ON KEY GOSUB 'K1' 
+  On-key branch is disabled by :
+    20 OFF KEY
+  Warning: the line number of ON KEY GOTO/GOSUB is NOT updated by RENUMBER ! Use a label instead.
+  Example:
+  10 !
+  20 I=0
+  30 ON KEY GOTO 'K1'
+  40 I=I+1
+  50 DISP I
+  60 GOTO 40
+  90 'K1': K$=KEY$
+  100 IF K$="Q" THEN 130   ' QUIT
+  110 IF K$="C" THEN I=0   ' CLEAR COUNTER
+  120 GOTO 30
+  130 OFF KEY
+
+ROWCOL "Row/Column swapper"
+- ROWCOL$ converts a string of 8 bytes into an 8x8 matrix of bits, transposes it (converting the rows
+to columns and vice versa), and converts it back into a string of 8 bytes. If the argument is less than 8
+bytes, it is padded with nulls before transposing. Great for graphics work.
+
+BANNER
+Converts a string character into a string of 48 characters that represents the LCD display (8
+rows of 6 dots) of that character. Allows printing large banners from keyboard input text. Even works on
+CHARSET characters! SIZE: 202 bytes ("CLOCKVID" = 593 bytes).
+- BANNER$'s parameters allow optional specification of foreground and background characters.
+- Comes with a BASIC program "CLOCKVID" that displays a digital clock on a CRT (using video
+interface) in HUGE digits; the HP-71 turns itself on once a minute to update the display, then turns off again!
+
+CLOCKDSP "Clock Display lexfile".
+- CLOCK ON puts the HP-71 into clock display mode: the right end of the display turns into a digital
+clock updating every second, but the rest of the display is left alone for you to do work of any sort as
+usual! Even works in CALC mode.
+- CLOCK OFF turns off the clock and returns the entire display to your control.
+Cannot be used with programs that use the WINDOW statement.
+   
+KEYSLEEP
+- KEYSLP$
+  This function is identical to KEYWAIT$ except that if an ON TIMER expires during statement
+  execution, a null string is returned immediately.
+
+PATTERN
+- PATTERN$ takes a normal DISP-type string and converts it to a GDISP-type string, so that DISP
+"HELLO" and GDISP PATTERN$("HELLO") have the same result on the LCD, but the latter is
+much faster if the string is pre-compiled with PATTERN$. Even works with custom CHARSET
+characters.
+
+SYSTEMFN
+- SYSTEM$(system parameter name | parameter index)
+- SYSTEM(system parameter name )
+  SYSTEM$ returns a string representing the value of the system parameter specified by a string.
+  If the value can be represented by a numeric value, then the SYSTEM function can be used instead to get the numeric value.
+  The SYSTEM$(index value) returns the name of the system parameter given by an index value. 
+  A lower-case 's' as first character indicates a string value.
+  Examples:
+  SYSTEM$(1) --> " WIDTH"
+  SYSTEM$("WIDTH") --> "80" (string)
+  SYSTEM("WIDTH") --> 80 (numeric value)
+  This program lists all the system parameters available with SYSTEM$:
+  10 I=1
+  20 A$=SYSTEM$(I)
+  30 IF A$="" THEN 60
+  40 DISP I;A$;" = ";SYSTEM$(A$[2])
+  50 I=I+1 @ GOTO 20
+  60 END  
+  >RUN
+   1  WIDTH = 80
+   2  PWIDTH = Inf
+   3 sPASSWORD =
+   4  CMDSTK = 15
+   5  KEYCOUNT = 0
+   6  CLOCK = 635600
+   7 sENDLINE =
+   8 sDISPFORM = STD
+   9  CONTRAST = 9
+   10  LDELAY = 0
+   11  CDELAY = 0
+
+FMTLEX
+- IMAGE$(string expression)
+  string expression - an IMAGE string.
+  This function prepares a pre-parsed IMAGE token stream for use with PRINT USING statements.
+  The use of pre-parsed token stream greatly increases the speed of the PRINT USING statements.
+- PRINT TO string variable [USING image] ; item list
+  string variable - string to which the output will go.
+  image - image specifier.
+  item list - string or numeric expressions separated by commas or semicolons.
+  This statement allows formatted output from PRINT or PRINT USING statement to be placed in a
+  string variable instead of being sent to an output device. All characters that would be sent to the display
+  device (including control characters, CR and LF) are written to the string variable; The characters used in
+  the endline string are used as in a normal PRINT or OUTPUT statement. A PWIDTH of Inf is used.
+
+CMDLEX
+- CMDSTK n sets the size of the command stack (1-16).
+
+LINKERLX "Lexfile Linker".
+- LINKLEX LexFile : merges two or more lexfiles into one, maintaining the features of all of them but saving
+memory because there is only one file header in memory. Allows the creation of custom lexfile
+packages by linking all the desired keywords into a single lexfile. Even works on lexfiles that don't
+add any keywords.
+
+TCONV date and time format conversion
+- DCNV(string expression)
+  string expression - a date expressed as a string in the form YY/MM/DD.
+  This function converts a string expression of the form YY/MM/DD to an integer date of the form YYDDD.
+- DCNV$(numeric expression)
+  numeric expression - a date in integer form (YYDDD).
+  This function converts an integer date of the form YYDDD to a string in the form YY/MM/DD.
+- TCNV(string expression)
+  string expression - a string expression of the form HH:MM:SS.
+  This function converts a string of the form HH:MM:SS to an integer representing the number of seconds
+  since midnight.
+- TCNV$(numeric expression)
+  numeric expression - the number of seconds since midnight.
+  This function converts a number representing the number of seconds since midnight into a string of the
+  form HH:MM:SS.
+
+
+
