@@ -24,7 +24,7 @@ program bintodat.py
 | joesbest-nokbeep.dat | Joe's Collection Without KBEEP | 32K |
 | jpcf05.dat | The JPC ROM Maintained by J-F Garnier | 32K |
 | math.dat | The Math Pac ROM | 32K |
-| math2b.dat | J-F Garnier's Extention of Math Pac | 32K |
+| math2b.dat | J-F Garnier's Extension of Math Pac | 32K |
 | math-p.dat | | 32K |
 | surveying.dat | The Surveying ROM | 16K |
 | symbolix.dat | Joe Horn's Symbolix CAS Program | 32K |
