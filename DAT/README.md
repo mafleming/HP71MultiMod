@@ -20,7 +20,7 @@ program bintodat.py
 | hp41trans.dat | The HP-41 Translator ROM | 16K |
 | hp41transhrd.dat | The HP-41 Translator Hard ROM | 32K |
 | hpil1b.dat | The HP-IL version 1B ROM | 16K |
-| joesbest.dat | A Collection of LEX Files by Jow Horn | 32K |
+| joesbest.dat | A Collection of LEX Files by Joe Horn | 32K |
 | joesbest-nokbeep.dat | Joe's Collection Without KBEEP | 32K |
 | jpcf05.dat | The JPC ROM Maintained by J-F Garnier | 32K |
 | math.dat | The Math Pac ROM | 32K |

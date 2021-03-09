@@ -14,6 +14,10 @@ Further details on the ROM emulator, how it works and how to use it, can
 be found in the User Manual.
 
 # Directory structure
+- The **BIN** directory will contain ROM images in .BIN format. For the
+moment, images of HP ROMs are not present. ROM images available from and
+hosted by others will only be added by permission. Links will be provided
+in the meantime.
 - The data files containing ROM images can be found in the **DAT** directory.
 - The **HEX** directory will contain files that can be used to program the PIC
 processor in the MultiMod directly using a Microchip programmer and IPE
@@ -21,7 +25,7 @@ software.
 - The **LIF** directory contains floppy disk images in HP's proprietary LIF
 format. These images contain various useful programs.
 - The **doc** directory contains documentation for the MultiMod emulator
-as well as some of the ROM images.
+as well as for some of the ROM images.
 - The **utils** directory contains useful utilities, including python scripts
 to convert .BIN files into the .DAT files used by the MultiMod serial monitor.
 - The **src** directory contains the MPASM assembly source files used to

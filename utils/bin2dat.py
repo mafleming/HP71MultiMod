@@ -3,7 +3,7 @@ import sys
 
 # Main function
 # An HP-71B BIN file is just a binary image of a ROM, with nibbles
-# aranged as bytes, low first then high in the byte. A DAT file is
+# arranged as bytes, low first then high in the byte. A DAT file is
 # the ASCII Hex equivalent of each byte, 16 bytes per line with a
 # space in-between each for human readability. Lines are terminated
 # with a carriage return.
