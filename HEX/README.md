@@ -9,4 +9,9 @@ ROM emulator code itself are named MultiMod with a four digit version
 number.
 
 Instructions for using the boot loader to update the emulator software
-can be found in the User Manual appendix.
+can be found in the User Manual appendix. Files are
+
+- MMimagexxyy.hex     Entire PIC flash image for programming tool
+- MultiModxxyy.hex    ROM Emulator software image for bootloader
+
+where xx = major number and yy=minor number.
