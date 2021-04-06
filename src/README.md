@@ -1,7 +1,7 @@
 HP71MultiMod Repository
 
 # A ROM Emulator Board for the HP-71B
-** 27-March-2021 **
+**27-March-2021**
 
 Source files for the current production release of the MultiMod board. These files
 are assembled, linked, and loaded with MPASMX in MicroChip MPLAB X IDE v5.35,
