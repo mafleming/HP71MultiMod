@@ -23,9 +23,9 @@ def main():
     for byte in bindata:
         sys.stdout.write("{0:02X}".format(byte))
         count = count + 1
-        if (count % 16) == 0:
+        if (count % 64) == 0:
             sys.stdout.write("\r")
-        else:
-            sys.stdout.write(" ")
+        #else:
+        #    sys.stdout.write(" ")
     sys.stdout.write("\r")
 main()
