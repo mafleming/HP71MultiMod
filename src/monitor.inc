@@ -516,6 +516,7 @@ CREAD
         movwf   CMDBUF+1            ; Save response
         movlw   '\r'                ; CR means commit
         cpfseq  CMDBUF+1
+        bra     COMWRI              ; Return means NO
         bra     CCMD2
 COMWRI
         banksel PIR3
@@ -697,7 +698,11 @@ ICHK2
         call    ASC2HEX             ; Get first hex digit
         bc      ILOOP2              ; Carry set means not valid digit
         iorwf   CMDBUF+3            ; Form complete byte
-        movff   CMDBUF+3,POSTINC0   ; Save byte to buffer
+        ; Code change to prevent buffer overrun
+        ;movff   CMDBUF+3,POSTINC0   ; Save byte to buffer
+        movff   CMDBUF+3,INDF0      ; Save byte to buffer
+        incf    FSR0L               ; Increment pointer, wrap around buffer
+        ; End buffer overrun code change
         incf    CNTR                ; Byte counter
         bra     ILOOP               ; Get next byte
 
