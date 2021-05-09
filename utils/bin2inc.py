@@ -21,13 +21,12 @@ def main():
     count = 0
     bindata = list(input_file.read())
     sys.stdout.write("    radix hex\n")
-    sys.stdout.write("    db  ")
     for byte in bindata:
-        sys.stdout.write("{0:03X}".format(byte))
-        count = count + 1
         if (count % 16) == 0:
             sys.stdout.write("\n    db  ")
-        else:
+        sys.stdout.write("{0:03X}".format(byte))
+        count = count + 1
+        if (count % 16) != 0:
             sys.stdout.write(",")
     sys.stdout.write("\n")
 
