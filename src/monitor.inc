@@ -433,6 +433,8 @@ ECMD
         ; Set up loop
         banksel CMD
         STROUT  STR51,OUTSTR        ; We've started message
+        clrf    TBLPTRL
+        clrf    TBLPTRU
         movlw   0x00                ; Check for special case block 0
         cpfseq  CMDBUF+1            ; Skip if regular block 1-7
         bra     EBLK17              ; Set up for blocks 1-7
@@ -443,10 +445,8 @@ ECMD
         movlw   0x40                ; Number of sectors per half block
 #endif
         movwf   CNTR
-        clrf    TBLPTRL
         movlw   0x20                ; Half block 0 starts at 2000h
         movwf   TBLPTRH
-        clrf    TBLPTRU
         bra     ERLOOP
 EBLK17
 #ifdef __18F27Q10
@@ -1276,6 +1276,8 @@ NVMLOOP
         bsf     INTCON,GIE,A        ; re-enable interrupts
         bcf     NVMCON1,WREN,A      ; disable writes to memory
         tblrd   *+                  ; Point back to next byte location
+        btfsc   NVMCON1,WRERR,A     ; Skip if no write error
+        bra     NVMLERR             ; Write error
 #endif
 
 NVMLDONE
@@ -1353,6 +1355,8 @@ ERASESEC
         bsf     NVMCON1,WR,A        ; Start erase (CPU stalls)
         bsf     INTCON,GIE,A        ; re-enable interrupts
         bcf     NVMCON1,WREN,A      ; disable writes to memory
+        btfsc   NVMCON1,WRERR,A     ; Skip if no write error
+        bsf     STATUS,C            ; Set carry, error flag
 #endif
 
         return
@@ -1453,6 +1457,7 @@ WRITESEC
 #endif
 
 #ifdef __18F27K40
+       bcf     STATUS,C              ; Clear carry, no error
        bcf     NVMCON1,NVMREG0,A     ; point to Program Flash Memory
        bsf     NVMCON1,NVMREG1,A     ; access Program Flash Memory
        bsf     NVMCON1,WREN,A        ; enable write to memory
@@ -1465,6 +1470,8 @@ WRITESEC
        bsf     NVMCON1,WR,A          ; Start erase (CPU stalls)
        bsf     INTCON,GIE,A          ; re-enable interrupts
        bcf     NVMCON1,WREN,A        ; disable writes to memory
+       btfsc   NVMCON1,WRERR,A       ; Skip if no write error
+       bsf     STATUS,C              ; Set carry, error flag
 #endif
 
     return
