@@ -15,3 +15,9 @@ can be found in the User Manual appendix. Files are
 - MultiModxxyy.hex    ROM Emulator software image for bootloader
 
 where xx = major number and yy=minor number.
+
+The file devices.zip contains an updated version of the bootloader client
+database of PIC microcontrollers. The PIC18 used in the MultiMod has been
+added to the database. Rename the default devices.db and replace it with
+the one in this devices.zip file before proceeding with the client update
+instructions.
