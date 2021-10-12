@@ -1209,12 +1209,12 @@ CONFIGURE
 ;*******************************************************************************
 UNCONFIG
         ; 3/7 instruction cycles following command dispatch
-        FLAGHI
+        ;FLAGHI
         movlw   0x00
         cpfseq  DRANGE              ; Don't output if ROM not selected
         bra     IDLE
         clrf    RDY                 ; Device has been unconfigured
-        FLAGLO
+        ;FLAGLO
         bra     IDLE                ; Should wait for Din rising edge
     
 
@@ -1255,11 +1255,9 @@ SHUTDWN
 ;*******************************************************************************
 RESETX
         ; 5 instruction cycles following command dispatch
+        bcf     INTCON,GIEH,0       ; High Priority Interrupt Disable
+        bcf     INTCON,GIEL,0       ; Low Priority Interrupt Disable
         FLAGHI
-        ;clrf    RDY
-        ;clrf    IDSENT              ; Haven't responded to ID command
-        ;lfsr    FSR0,ROMDAT         ; Point to first ROM entry
-        ;lfsr    FSR1,ROMDAT         ; Point to first ROM entry bank number
         call    INITVAR             ; Initialize variables and pointers
         call    INITTAB             ; Unmap all ROMs
         FLAGLO
