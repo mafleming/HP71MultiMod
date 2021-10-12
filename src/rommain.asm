@@ -626,6 +626,7 @@ INITDEV
         movlw   0x00
         cpfsgt  ROMNUM              ; Skip if ROMNUM > 0
         bra     INIEXIT             ; A zero in ROMNUM unplugs all ROMs
+                                    ; Should be EXITINI
         btfss   SIGPORT,Din,0       ; Only enumerate when Daisy-In is high
         bra     $-2                 ; This could be a hang until 71B turned on
 ENUMROM
@@ -1193,8 +1194,13 @@ CONFIGURE
 ; RESPOND TO UNCONFIGURE COMMAND
 ; Command executes immediately on entry. STRn has already gone low and is
 ; likely high by the time DISPATCH transfters execution.
+; 
+;*******************************************************************************
 ; Only a device selected by its Data Pointer is supposed to respond to the
-; UNCONFIGURE command.
+; UNCONFIGURE command. This is only done for RAM, not ROM. Only the selected
+; RAM should be put in the unassigned state. Unconfiguring RAM would precede
+; a configuration pass with Daisy-In.
+;*******************************************************************************
 ; 
 ; With Daisy-In high generating an interrupt that vectors control to the
 ; Initialize Device task, the high priority interrupt should be disabled and
@@ -1209,7 +1215,7 @@ UNCONFIG
         bra     IDLE
         clrf    RDY                 ; Device has been unconfigured
         FLAGLO
-        bra     INITDEV             ; Should wait for Din rising edge
+        bra     IDLE                ; Should wait for Din rising edge
     
 
 ;*******************************************************************************
@@ -1250,10 +1256,12 @@ SHUTDWN
 RESETX
         ; 5 instruction cycles following command dispatch
         FLAGHI
-        clrf    RDY
-        clrf    IDSENT              ; Haven't responded to ID command
-        lfsr    FSR0,ROMDAT         ; Point to first ROM entry
-        lfsr    FSR1,ROMDAT         ; Point to first ROM entry bank number
+        ;clrf    RDY
+        ;clrf    IDSENT              ; Haven't responded to ID command
+        ;lfsr    FSR0,ROMDAT         ; Point to first ROM entry
+        ;lfsr    FSR1,ROMDAT         ; Point to first ROM entry bank number
+        call    INITVAR             ; Initialize variables and pointers
+        call    INITTAB             ; Unmap all ROMs
         FLAGLO
         bra     INITDEV
 
@@ -1498,6 +1506,9 @@ INITVAR
         banksel CMD                 ; Default for all BSR accesses
         clrf    RDY
         clrf    MIOVLD
+        clrf    IDSENT              ; Haven't responded to ID command
+        lfsr    FSR0,ROMDAT         ; Point to first ROM entry
+        lfsr    FSR1,ROMDAT         ; Point to first ROM entry bank number
         return
 
 

@@ -16,6 +16,11 @@ can be found in the User Manual appendix. Files are
 
 where xx = major number and yy=minor number.
 
+Version 0103 - fixes ROM table corruption when software flow control is
+        not used when sending an image to the serial monitor
+Version 0104 - fixes failure to unconfigure ROMs when a RESETX command
+        is issued
+
 The file devices.zip contains an updated version of the bootloader client
 database of PIC microcontrollers. The PIC18 used in the MultiMod has been
 added to the database. Rename the default devices.db and replace it with
