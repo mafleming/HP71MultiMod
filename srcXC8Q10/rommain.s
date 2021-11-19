@@ -631,9 +631,9 @@ INITDEV:
         movwf   CNTR,c              ; Limit number of table entries scanned
         lfsr    0,ROMDAT            ; Point to first ROM entry
 
-        movlw   0x00
-        cpfsgt  ROMNUM,c            ; Skip if ROMNUM > 0
-        bra     INIEXIT             ; A zero in ROMNUM unplugs all ROMs
+        ;movlw   0x00
+        ;cpfsgt  ROMNUM,c            ; Skip if ROMNUM > 0
+        ;bra     INIEXIT             ; A zero in ROMNUM unplugs all ROMs
                                     ; Should be EXITINI
         btfss   SIGPORT,Din,c       ; Only enumerate when Daisy-In is high
         bra     $-2                 ; This could be a hang until 71B turned on
@@ -767,12 +767,12 @@ INICHK:
         bra     ENUMCHK
 INIHDN:
         ; Check boundary condition: Hidden ROM is disabled
-        btfsc   ROMNUM,cfHIDDEN,c   ; Should hidden ROM be configured?
-        bra     ENUMCHK             ; Hidden ROM enabled, continue
-        movlw   teFLAG
-        btfsc   PLUSW0,teLAST,c     ; Skip if not Last Flag
-        bra     INIEXIT             ; Disabled hidden ROM, go to next entry
-        bra     INICHK
+        ;btfsc   ROMNUM,cfHIDDEN,c   ; Should hidden ROM be configured?
+        ;bra     ENUMCHK             ; Hidden ROM enabled, continue
+        ;movlw   teFLAG
+        ;btfsc   PLUSW0,teLAST,c     ; Skip if not Last Flag
+        ;bra     INIEXIT             ; Disabled hidden ROM, go to next entry
+        ;bra     INICHK
 
 ENUMCHK:
         btfsc   SIGPORT,Din,c       ; Exit when Din deasserted because we
@@ -1410,8 +1410,8 @@ INITMOD:
 ;*******************************************************************************
 HARDRST:
         banksel CMD                 ; Default for all BSR accesses
-        movlw   0x00                ; No ROM configuration is active
-        movwf   ROMNUM,c
+        ;movlw   0x00                ; No ROM configuration is active
+        ;movwf   ROMNUM,c
         ; Initialize static variables
         movlw   ROMLEN              ; Length of ROM configuration string
         mullw   NROMS+1             ; Extra ROM entry for MMIO address
