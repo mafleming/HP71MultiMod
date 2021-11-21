@@ -928,18 +928,6 @@ TABLE:
         goto   NODOFF
         goto   DISPATCH
         goto   INITDEV
-#ifdef SERMON
-        goto   MONITOR
-        call   CHAROUT
-        call   GETSLOT
-        call   GETBLK
-        call   ASC2HEX
-        call   NVMLINE
-        call   ERASESEC
-        call   READSEC
-        call   WRITEHOLD
-        call   WRITESEC
-#endif
 
 ;*******************************************************************************
 ; IGNORE COMMAND
@@ -1021,6 +1009,7 @@ ID:
 ; The TBLPTR should also be incremented as well when multiple ROMs are added.
 ;*******************************************************************************
 PCWRITE:
+        bra     IDLE                ; Disable MMIO write
         NEGEDGE STRn                ; 2~4 + 11 instruction cycles (!)
         btfss   MIOVLD,0,c          ; Skip if MMIO selected
         bra     IDLE
@@ -1045,9 +1034,8 @@ PCWRITE:
 ; The TBLPTR should also be incremented as well when multiple ROMs are added.
 ;*******************************************************************************
 DPWRITE:
-        ;FLAGHI
+        bra     IDLE                ; Disable MMIO write
         NEGEDGE STRn                ; 2~4 + 11 instruction cycles (!)
-        ;FLAGLO
         btfss   MIOVLD,0,c          ; Skip if MMIO not selected
         bra     IDLE
         lfsr    1,ROMNUM            ; MMIO buffer pointer
