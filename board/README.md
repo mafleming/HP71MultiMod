@@ -23,3 +23,6 @@ Windows and Linux.
 
 I've used OSH Park as my PCB supplier and OSH Stencil for the solder paste
 application.
+
+Recently added are the STL files for the top and bottom half of the MultiMod
+enclosure. Enjoy!
